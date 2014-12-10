@@ -1,27 +1,17 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8)
 project(racer-sdl)
 
-# Use our modified FindSDL2* modules
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+SET(CMAKE_EXE_LINKER_FLAGS "-static")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${racer-sdl_SOURCE_DIR}/cmake")
-set(BIN_DIR ${racer-sdl_SOURCE_DIR}/bin)
-
-# Bump up warning levels appropriately for clang, gcc & msvc and build in debug mode
-if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" OR ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -std=c++11")
-	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -g")
-	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O2")
-elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
-	if (CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
-		string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-	else()
-		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
-	endif()
-endif()
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${racer-sdl_SOURCE_DIR}/build/${CMAKE_BUILD_TYPE}")
 
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIR})
-include_directories(include)
 
-add_executable(racer-sdl src/main.cpp)
+file(GLOB SOURCE_FILES src/*.cpp src/*.hpp)
+add_executable(racer-sdl ${SOURCE_FILES})
+
+MESSAGE("${SDL2_LIBRARY}")
 target_link_libraries(racer-sdl ${SDL2_LIBRARY})
-install(TARGETS racer-sdl RUNTIME DESTINATION ${BIN_DIR})
+
