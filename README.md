@@ -1,4 +1,4 @@
-Racer2D
+racer-sdl
 =======
 
-A topdown racing game.
+A SDL2 port of Racer2D/Topdown Racing.
