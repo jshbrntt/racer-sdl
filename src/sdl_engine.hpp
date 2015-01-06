@@ -14,4 +14,5 @@ protected:
     int CreateRenderer();
     int LoadResources();
     void Loop();
+    void Quit();
 };

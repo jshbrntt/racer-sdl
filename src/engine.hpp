@@ -9,6 +9,7 @@ protected:
         width_ = width;
         height_ = height;
         frame_rate_ = frame_rate;
+        quit_ = false;
     }
 
 };
